@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  # ──────────────────────────────────────────────
+  # Blog Generator — FastAPI service
+  # Generates SEO-optimised blog posts via remote LLM
+  # ──────────────────────────────────────────────
+  blog-generator:
+    build:
+      context: ./blog-generator
+      dockerfile: Dockerfile
+    container_name: blog-generator
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./blog-generator/sites.json:/app/sites.json:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ──────────────────────────────────────────────
+  # Scheduler — Triggers blog generation every 2 hours
+  # Same image as blog-generator, different entrypoint
+  # ──────────────────────────────────────────────
+  scheduler:
+    build:
+      context: ./blog-generator
+      dockerfile: Dockerfile
+    container_name: blog-scheduler
+    entrypoint: ["python", "scheduler.py"]
+    env_file:
+      - .env
+    volumes:
+      - ./blog-generator/sites.json:/app/sites.json:ro
+    depends_on:
+      blog-generator:
+        condition: service_healthy
+    restart: unless-stopped

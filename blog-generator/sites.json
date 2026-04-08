@@ -1,0 +1,53 @@
+{
+  "sites": [
+    {
+      "id": "site-1",
+      "name": "My Tech Blog",
+      "domain": "https://example.com",
+      "supabase_url": "https://jogbussgksgdndsqcxho.supabase.co",
+      "supabase_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvZ2J1c3Nna3NnZG5kc3FjeGhvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NjEwMjcsImV4cCI6MjA5MTIzNzAyN30.W5wr1gXE6kUn1pKtRWS0ffuBfo5_QbEnRWbh7pdF0Gg",
+      "supabase_service_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpvZ2J1c3Nna3NnZG5kc3FjeGhvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTY2MTAyNywiZXhwIjoyMDkxMjM3MDI3fQ._Am4HXcIJmiqKwotdSNjPJebEnqQCk0JVSiOfDy433k",
+      "sanity_project_id": "xrxfrwpr",
+      "sanity_dataset": "production",
+      "sanity_token": "skZQnpcmTAc1UTyOauqUAZx0dheJ1kKBr8IFB4oxi3f1Sfj5lXqsH90JJqIs5nPJmAL5VTDlxQWrWV7xMUFluQYmCeAn8J25sAPboi6Aks8ZWJH8xQa7iPIHSJfAc8emHjisBBf3coX0pnAtqYNTGr3cwkBgK5bPETlYrChu6FdwJqGrMSxR",
+      "posts_per_cycle": 3,
+      "topics": [
+        "web development best practices",
+        "modern JavaScript frameworks",
+        "cloud computing trends",
+        "AI in software development",
+        "DevOps automation",
+        "mobile app development",
+        "cybersecurity fundamentals",
+        "database optimization",
+        "API design patterns",
+        "frontend performance"
+      ],
+      "keywords": [
+        "nextjs",
+        "react",
+        "typescript",
+        "nodejs",
+        "python",
+        "docker",
+        "kubernetes",
+        "aws",
+        "postgresql",
+        "graphql"
+      ],
+      "internal_links": {
+        "nextjs tutorial": "/blog/getting-started-with-nextjs",
+        "react hooks": "/blog/react-hooks-complete-guide",
+        "typescript guide": "/blog/typescript-best-practices",
+        "api design": "/blog/restful-api-design-patterns"
+      },
+      "external_links": {
+        "Next.js": "https://nextjs.org",
+        "React": "https://react.dev",
+        "TypeScript": "https://www.typescriptlang.org",
+        "Supabase": "https://supabase.com",
+        "Vercel": "https://vercel.com"
+      }
+    }
+  ]
+}
