@@ -16,6 +16,45 @@ from config import SiteConfig
 logger = logging.getLogger(__name__)
 
 
+import uuid
+
+def parse_inline_markdown(text: str) -> dict:
+    """Parse text for markdown links and return Sanity children and markDefs."""
+    children = []
+    markDefs = []
+    
+    # Simple regex to find [text](url)
+    pattern = re.compile(r'\[(.*?)\]\((.*?)\)')
+    
+    last_end = 0
+    for match in pattern.finditer(text):
+        start, end = match.span()
+        # Add preceding text
+        if start > last_end:
+            children.append({"_type": "span", "text": text[last_end:start]})
+            
+        link_text = match.group(1)
+        link_url = match.group(2)
+        
+        # Create markDef
+        key = str(uuid.uuid4())[:12]
+        markDefs.append({"_key": key, "_type": "link", "href": link_url})
+        
+        # Add link span
+        children.append({"_type": "span", "marks": [key], "text": link_text})
+        
+        last_end = end
+        
+    # Add trailing text
+    if last_end < len(text):
+        children.append({"_type": "span", "text": text[last_end:]})
+        
+    if not children:
+        children = [{"_type": "span", "text": text}]
+        
+    return {"children": children, "markDefs": markDefs}
+
+
 def markdown_to_portable_text(markdown: str) -> list:
     """Convert markdown to Sanity Portable Text blocks."""
     blocks = []
@@ -36,9 +75,11 @@ def markdown_to_portable_text(markdown: str) -> list:
                 "children": [{"_type": "span", "text": para[4:].strip()}],
             })
         else:
+            parsed = parse_inline_markdown(para)
             blocks.append({
                 "_type": "block", "style": "normal",
-                "children": [{"_type": "span", "text": para}],
+                "children": parsed["children"],
+                "markDefs": parsed["markDefs"]
             })
     return blocks
 

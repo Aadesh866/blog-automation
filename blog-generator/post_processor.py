@@ -155,37 +155,45 @@ def clean_markdown_artifacts(text: str) -> str:
 def vary_sentence_length(text: str) -> str:
     """
     Break up monotonous sentence rhythm.
-    Split very long sentences (30+ words) and occasionally merge very short ones.
+    Split very long sentences (30+ words) per paragraph to preserve structure.
     """
-    sentences = re.split(r'(?<=[.!?])\s+', text)
-    result = []
+    paragraphs = text.split('\n\n')
+    processed_paragraphs = []
 
-    for sentence in sentences:
-        words = sentence.split()
-        # Split sentences longer than 30 words at natural break points
-        if len(words) > 30:
-            # Find a conjunction or comma to split at
-            mid = len(words) // 2
-            split_point = None
-            for i in range(mid - 3, mid + 3):
-                if 0 < i < len(words) and words[i].lower() in (
-                    'and', 'but', 'which', 'while', 'although', 'because', 'however',
-                ):
-                    split_point = i
-                    break
-            if split_point:
-                first = ' '.join(words[:split_point])
-                second = ' '.join(words[split_point:])
-                # Capitalize the second part
-                second = second[0].upper() + second[1:] if second else second
-                if not first.endswith(('.', '!', '?')):
-                    first += '.'
-                result.append(first)
-                result.append(second)
+    for para in paragraphs:
+        if para.strip().startswith('#') or not para.strip():
+            processed_paragraphs.append(para)
+            continue
+
+        sentences = re.split(r'(?<=[.!?])\s+', para.strip())
+        result = []
+        for sentence in sentences:
+            if not sentence:
                 continue
-        result.append(sentence)
+            words = sentence.split()
+            # Split sentences longer than 30 words at natural break points
+            if len(words) > 30:
+                mid = len(words) // 2
+                split_point = None
+                for i in range(mid - 3, mid + 3):
+                    if 0 < i < len(words) and words[i].lower() in (
+                        'and', 'but', 'which', 'while', 'although', 'because', 'however',
+                    ):
+                        split_point = i
+                        break
+                if split_point:
+                    first = ' '.join(words[:split_point])
+                    second = ' '.join(words[split_point:])
+                    second = second[0].upper() + second[1:] if second else second
+                    if not first.endswith(('.', '!', '?')):
+                        first += '.'
+                    result.append(first)
+                    result.append(second)
+                    continue
+            result.append(sentence)
+        processed_paragraphs.append(' '.join(result))
 
-    return ' '.join(result)
+    return '\n\n'.join(processed_paragraphs)
 
 
 def reshape_paragraphs(text: str) -> str:
