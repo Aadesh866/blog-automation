@@ -157,9 +157,9 @@ def parse_json_from_llm(text: str, fallback_topic: str = "Untitled Post") -> dic
             "title": fallback_topic.title(),
             "meta_description": f"Learn more about {fallback_topic} in this comprehensive post.",
             "sections": [
-                {"heading": f"Introduction to {fallback_topic.title()}", "points": [f"Main topic overview for {fallback_topic}"]},
-                {"heading": "Key Points", "points": ["Important information"]},
-                {"heading": "Conclusion", "points": ["Final thoughts"]},
+                {"heading": f"What's the Deal With {fallback_topic.title()}?", "points": [f"Main topic overview for {fallback_topic}"]},
+                {"heading": "The Core Strategy", "points": ["Important information"]},
+                {"heading": "Final Thoughts", "points": ["Final thoughts"]},
             ],
         }
 

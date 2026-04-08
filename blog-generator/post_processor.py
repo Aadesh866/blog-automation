@@ -131,6 +131,27 @@ def apply_contractions(text: str) -> str:
     return text
 
 
+def clean_markdown_artifacts(text: str) -> str:
+    """
+    Strip stubborn LLM markdown behaviors (hashtags, bolding, bullet points) 
+    to force pure, human-like prose format.
+    """
+    # Remove hashtags like #Blogging or #Tech but leave #1
+    text = re.sub(r'(?<!\S)#[A-Za-z_]+\b', '', text)
+    # Turn bullet lists into normal sentences by removing the leading hyphen/asterisk
+    text = re.sub(r'^\s*[-*]\s+', '', text, flags=re.MULTILINE)
+    # Remove bold and italic markers
+    text = re.sub(r'\*\*(.*?)\*\*', r'\1', text)
+    text = re.sub(r'\*(.*?)\*', r'\1', text)
+    # Remove horizontal rules
+    text = re.sub(r'^---+\s*$', '', text, flags=re.MULTILINE)
+    # Clean up double spaces
+    text = re.sub(r' {2,}', ' ', text)
+    # Fix excess blank spacing
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    return text.strip()
+
+
 def vary_sentence_length(text: str) -> str:
     """
     Break up monotonous sentence rhythm.
@@ -298,6 +319,9 @@ def process_post(content: str) -> tuple[str, float]:
 
     logger.info("Post-processing: applying contractions...")
     content = apply_contractions(content)
+
+    logger.info("Post-processing: cleaning markdown formatting...")
+    content = clean_markdown_artifacts(content)
 
     logger.info("Post-processing: varying sentence length...")
     content = vary_sentence_length(content)

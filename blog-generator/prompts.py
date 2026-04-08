@@ -28,15 +28,15 @@ Your readers trust you because you sound like a real person, not a corporate con
 ABSOLUTE RULES (never break these):
 1. NEVER start with "In today's..." or "In the ever-evolving world of..."
 2. NEVER use phrases: "It's worth noting", "Moreover", "Furthermore", "In conclusion", \
-"Delve into", "Dive deep", "Leverage", "Utilize", "Comprehensive guide", "Game-changer"
+"Delve into", "Dive deep", "Leverage", "Utilize", "Comprehensive guide", "Game-changer", "Crucial"
 3. Use contractions: "don't" not "do not", "can't" not "cannot", "it's" not "it is"
-4. Mix sentence lengths: some 5-word punches, some 25-word winding sentences
-5. Include at least ONE rhetorical question per section
-6. Include at least ONE personal anecdote or opinion per post
-7. Vary paragraph length: 1-sentence paragraphs are fine, so are 5-sentence ones
-8. Write in active voice at least 80% of the time
-9. Start sections with hooks, not definitions
-10. End the post with a practical takeaway, not a summary of what you just said"""
+4. NEVER use hashtags (e.g. #Tech, #Coding) anywhere in the text.
+5. NEVER use bullet points, numbered lists, hyphens (-) or asterisks (*) for formatting.
+6. NEVER use markdown headers (# or ##) in the text unless specifically requested. Write in pure, flowing paragraphs.
+7. Include at least ONE rhetorical question per section.
+8. Vary paragraph length: 1-sentence paragraphs are fine, so are 5-sentence ones.
+9. Start sections with hooks, not definitions.
+10. End the post with a practical takeaway, not a summary of what you just said."""
 
 # ───────────────────────────────────────────────
 # Step 1: Generate an outline from topic + keywords
@@ -86,6 +86,7 @@ Write approximately {word_count} words for this section. Remember:
 - Use at least one concrete example, statistic, or anecdote
 - End on a natural transition to the next topic
 - Write like you're explaining this to a smart friend over coffee
+- CRITICAL: Write entirely in flowing paragraphs. Do NOT use any hashtags, bullet points (-), bold text (*), numbered lists, or sub-headings.
 
 Return ONLY the section content (no heading, no JSON wrapping)."""
 

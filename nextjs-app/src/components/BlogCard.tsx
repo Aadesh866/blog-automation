@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
 interface BlogCardProps {
@@ -18,6 +21,8 @@ export default function BlogCard({
   seoKeywords = [],
   index = 0,
 }: BlogCardProps) {
+  const router = useRouter();
+
   return (
     <Link
       href={`/blog/${slug}`}
@@ -29,12 +34,16 @@ export default function BlogCard({
       {seoKeywords.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-3">
           {seoKeywords.slice(0, 3).map((kw) => (
-            <span
+            <button
               key={kw}
-              className="text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent-light)] border border-[var(--color-accent)]/20"
+              onClick={(e) => {
+                e.preventDefault();
+                router.push(`/blog?q=${encodeURIComponent(kw)}`);
+              }}
+              className="text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 text-[var(--color-accent-light)] border border-[var(--color-accent)]/20 cursor-pointer relative z-10 transition-colors"
             >
               {kw}
-            </span>
+            </button>
           ))}
         </div>
       )}

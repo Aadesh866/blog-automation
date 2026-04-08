@@ -111,12 +111,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.seoKeywords && post.seoKeywords.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {post.seoKeywords.map((kw: string) => (
-                <span
+                <Link
                   key={kw}
-                  className="text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--color-accent)]/10 text-[var(--color-accent-light)] border border-[var(--color-accent)]/20"
+                  href={`/blog?q=${encodeURIComponent(kw)}`}
+                  className="text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-[var(--color-accent)]/10 hover:bg-[var(--color-accent)]/20 text-[var(--color-accent-light)] border border-[var(--color-accent)]/20 transition-colors"
                 >
                   {kw}
-                </span>
+                </Link>
               ))}
             </div>
           )}
