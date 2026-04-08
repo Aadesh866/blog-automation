@@ -1,8 +1,8 @@
 # Python
-venv/
-Lib/
-Include/
-Scripts/
+blog-generator/venv/
+blog-generator/Lib/
+blog-generator/Include/
+blog-generator/Scripts/
 __pycache__/
 *.pyc
 .pytest_cache/
