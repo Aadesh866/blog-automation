@@ -15,11 +15,6 @@ from typing import Dict
 
 logger = logging.getLogger(__name__)
 
-# Maximum links per post to avoid over-optimisation
-MAX_INTERNAL_LINKS = 3
-MAX_EXTERNAL_LINKS = 2
-
-
 def inject_links(
     content: str,
     internal_links: Dict[str, str],
@@ -28,6 +23,7 @@ def inject_links(
 ) -> str:
     """
     Inject hyperlinks into blog content based on keyword-to-URL mappings.
+    Dynamically scales link limits based on total word count.
 
     Args:
         content: The blog post markdown content
@@ -40,6 +36,15 @@ def inject_links(
     """
     if not internal_links and not external_links:
         return content
+
+    # Calculate dynamic boundaries based on word count
+    # Internal: ~4 links per 1000 words
+    # External: ~3 links per 1000 words
+    word_count = len(content.split())
+    max_internal = max(1, int((word_count / 1000.0) * 4))
+    max_external = max(1, int((word_count / 1000.0) * 3))
+
+    logger.info(f"Targeting up to {max_internal} internal and {max_external} external links for {word_count} words.")
 
     # Split content into lines to preserve headings (don't link inside headings)
     lines = content.split('\n')
@@ -60,11 +65,11 @@ def inject_links(
             continue
 
         # Inject internal links (highest priority)
-        if internal_count < MAX_INTERNAL_LINKS:
+        if internal_count < max_internal:
             for keyword, url in internal_links.items():
                 if keyword.lower() in used_keywords:
                     continue
-                if internal_count >= MAX_INTERNAL_LINKS:
+                if internal_count >= max_internal:
                     break
 
                 # Case-insensitive search for the keyword, but only match whole words
@@ -87,11 +92,11 @@ def inject_links(
                     logger.debug(f"Injected internal link: '{keyword}' → {full_url}")
 
         # Inject external links
-        if external_count < MAX_EXTERNAL_LINKS:
+        if external_count < max_external:
             for keyword, url in external_links.items():
                 if keyword.lower() in used_keywords:
                     continue
-                if external_count >= MAX_EXTERNAL_LINKS:
+                if external_count >= max_external:
                     break
 
                 pattern = re.compile(
